@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  productos-service:
+    build: 
+      context: ./ProductoMercado-main
+    container_name: productos-service
+    ports:
+      - "8080:8080"
+    networks:
+      - mercado-network
+
+  inventario-service:
+    build: 
+      context: ./inventario
+    container_name: inventario-service
+    ports:
+      - "8081:8081"
+    environment:
+      # Sobrescribimos la variable de entorno para que apunte al nombre del contenedor de productos
+      - PRODUCTO_SERVICE_URL=http://productos-service:8080/api/productos
+    networks:
+      - mercado-network
+    depends_on:
+      - productos-service
+
+networks:
+  mercado-network:
+    driver: bridge

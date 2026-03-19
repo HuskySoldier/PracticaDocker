@@ -16,7 +16,7 @@ public class ProductoClient {
     @Autowired
     private RestTemplate restTemplate;
 
-    @Value("http://localhost:8080/api/productos")
+    @Value("${producto.service.url}")
     private String productoServiceUrl;
 
     public ProductoDTO obtenerProducto(Long productoId) {
